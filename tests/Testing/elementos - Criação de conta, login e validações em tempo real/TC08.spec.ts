@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 // TEST CASE 8: Cadastro Completo de Novo Usuário
 // =========================================================
 test("Deve registrar um novo usuário com sucesso", async ({ page }) => {
-  await page.goto("https://practicesoftwaretesting.com/#/auth/login");
+  await page.goto("https://practicesoftwaretesting.com/auth/login");
 
   // Clica no link de registrar nova conta
   await page.locator('[data-test="register-link"]').click();
@@ -25,8 +25,9 @@ test("Deve registrar um novo usuário com sucesso", async ({ page }) => {
   // O campo de data (Date of Birth) pode ser preenchido digitando no formato AAAA-MM-DD
   await page.locator('[data-test="dob"]').fill("1990-05-15");
 
-  await page.locator('[data-test="address"]').fill("Rua dos Bugs, 404");
-  await page.locator('[data-test="postcode"]').fill("12345");
+  await page.locator('[data-test="postal_code"]').fill("12345");
+  await page.locator('[data-test="house_number"]').fill("404");
+  await page.locator('[data-test="street"]').fill("Rua dos Bugs");
   await page.locator('[data-test="city"]').fill("Test City");
   await page.locator('[data-test="state"]').fill("Test State");
   await page.locator('[data-test="country"]').selectOption("US"); // Seleciona pelo valor
