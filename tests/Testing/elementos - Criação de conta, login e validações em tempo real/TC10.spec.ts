@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 test("Deve realizar o login com sucesso e acessar o painel da conta", async ({
   page,
 }) => {
-  await page.goto("https://practicesoftwaretesting.com/#/auth/login");
+  await page.goto("https://practicesoftwaretesting.com/auth/login");
 
   // Este e-mail e senha são oficiais de demonstração fornecidos pelos criadores do site
   await page
