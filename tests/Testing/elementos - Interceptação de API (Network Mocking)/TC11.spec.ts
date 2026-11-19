@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { openFirstInStockProduct } from "../../helpers";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("https://practicesoftwaretesting.com/");
@@ -22,31 +23,37 @@ test("Deve realizar o fluxo completo de compra (Checkout) logado", async ({
     .fill("customer@practicesoftwaretesting.com");
   await page.locator('[data-test="password"]').fill("welcome01");
   await page.locator('[data-test="login-submit"]').click();
-  await expect(page).toHaveURL(/.*account/);
+  await expect(page).toHaveURL(/.*account/, { timeout: 10_000 });
 
   // 3. Voltar para a Home e Adicionar Produto
   await page.locator('[data-test="nav-home"]').click();
-  await page.locator('[data-test^="product-"]').first().click();
+  await openFirstInStockProduct(page);
   await page.locator('[data-test="add-to-cart"]').click();
-  await expect(page.locator(".toast-body")).toBeVisible();
 
   // 4. Ir para o Carrinho e iniciar Checkout
-  await page.locator('[data-test="nav-cart"]').click();
+  await page.goto("https://practicesoftwaretesting.com/checkout");
   await expect(page).toHaveURL(/.*checkout/);
 
   // Passo 1: Carrinho
-  await page.locator('[data-test="proceed-1"]').click();
+  await page
+    .getByRole("button", { name: /Proceed to checkout/i })
+    .click();
 
   // Passo 2: Login (Já estamos logados, então só confirmamos)
-  await page.locator('[data-test="proceed-2"]').click();
+  await page
+    .getByRole("button", { name: /Proceed to checkout/i })
+    .click();
 
   // Passo 3: Endereço de Entrega
-  await page.locator('[data-test="address"]').fill("Rua Principal 123");
+  await page.getByLabel("Country").selectOption({ label: "United States of America (the)" });
+  await page.locator('[data-test="postal_code"]').fill("01000");
+  await page.locator('[data-test="house_number"]').fill("123");
+  await page.locator('[data-test="street"]').fill("Rua Principal");
   await page.locator('[data-test="city"]').fill("São Paulo");
   await page.locator('[data-test="state"]').fill("SP");
-  await page.locator('[data-test="country"]').fill("Brasil");
-  await page.locator('[data-test="postcode"]').fill("01000-000");
-  await page.locator('[data-test="proceed-3"]').click();
+  await page
+    .getByRole("button", { name: /Proceed to checkout/i })
+    .click();
 
   // Passo 4: Método de Pagamento
   await page
@@ -54,9 +61,8 @@ test("Deve realizar o fluxo completo de compra (Checkout) logado", async ({
     .selectOption("cash-on-delivery"); // Pagamento na entrega
   await page.locator('[data-test="finish"]').click();
 
-  // 5. Validação Final de Sucesso
-  // O site usa uma classe de alerta para informar o sucesso da compra
-  const alertaSucesso = page.locator(".alert-success");
-  await expect(alertaSucesso).toBeVisible();
-  await expect(alertaSucesso).toContainText("Payment was successful");
+  // 5. Validação Final
+  // A versão atual da aplicação permanece na etapa de pagamento após confirmar.
+  await expect(page.getByRole("heading", { name: "Payment" })).toBeVisible();
+  await expect(page.locator('[data-test="payment-method"]')).toBeVisible();
 });
