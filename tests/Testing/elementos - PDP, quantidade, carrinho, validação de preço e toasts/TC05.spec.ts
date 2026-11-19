@@ -31,6 +31,8 @@ test("Deve acessar os detalhes do produto e validar suas informações", async (
   await expect(nomeNosDetalhes).toHaveText(nomeNaHome);
 
   // Validamos a presença da marca (Brand) e da descrição
-  await expect(page.locator("span", { hasText: "Brand:" })).toBeVisible();
+  await expect(
+    page.locator('span[aria-label="brand"]'),
+  ).toBeVisible();
   await expect(page.locator('[data-test="product-description"]')).toBeVisible();
 });
