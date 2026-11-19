@@ -23,12 +23,12 @@ test("Deve buscar por uma ferramenta específica e validar os resultados", async
   );
 
   // Validamos se os itens retornados realmente contêm a palavra buscada
-  const nomesProdutos = page.locator(".card-title");
+  const nomesProdutos = page.locator('[data-test="product-name"]');
+  await expect(nomesProdutos).toHaveCount(4);
   const quantidade = await nomesProdutos.count();
 
   expect(quantidade).toBeGreaterThan(0);
 
-  for (let i = 0; i < quantidade; i++) {
-    await expect(nomesProdutos.nth(i)).toContainText(/Pliers/i);
-  }
+  const nomes = await nomesProdutos.allTextContents();
+  nomes.forEach((nome) => expect(nome).toMatch(/Pliers/i));
 });
