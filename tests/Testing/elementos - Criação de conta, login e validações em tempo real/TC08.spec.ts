@@ -1,15 +1,11 @@
 import { test, expect } from "@playwright/test";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("https://practicesoftwaretesting.com/");
-  await page.waitForLoadState("networkidle");
-});
-
 // =========================================================
 // TEST CASE 8: Cadastro Completo de Novo Usuário
 // =========================================================
 test("Deve registrar um novo usuário com sucesso", async ({ page }) => {
   await page.goto("https://practicesoftwaretesting.com/auth/login");
+  await expect(page.getByRole("heading", { name: "Login" })).toBeVisible();
 
   // Clica no link de registrar nova conta
   await page.locator('[data-test="register-link"]').click();

@@ -71,7 +71,7 @@ playwright-e2e-practice-software-testing/
 | TC05-TC07 | Página de detalhes, quantidade, carrinho, preços e remoção de itens. |
 | TC08-TC10 | Cadastro, login e validações de formulário. |
 | TC11-TC12 | Fluxo de checkout e interceptação/mocking de respostas da API. |
-| BT01-BT03 | Uso de `test.fail()` e `expect.soft()` para bugs conhecidos. |
+| BT01-BT03 | Ordenação, asserções suaves e notificação do carrinho. |
 | BT04-BT06 | Problemas lógicos no carrinho e nos filtros. |
 | BT07-BT08 | Problemas de autenticação e cadastro. |
 

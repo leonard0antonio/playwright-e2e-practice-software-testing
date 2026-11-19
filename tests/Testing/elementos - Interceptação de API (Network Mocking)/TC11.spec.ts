@@ -1,11 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { openFirstInStockProduct } from "../../helpers";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("https://practicesoftwaretesting.com/");
-  await page.waitForLoadState("networkidle");
-});
-
 // =========================================================
 // TEST CASE 11: Checkout End-to-End (Jornada Completa)
 // =========================================================
@@ -17,7 +12,8 @@ test("Deve realizar o fluxo completo de compra (Checkout) logado", async ({
   await page.waitForLoadState("networkidle");
 
   // 2. Login Direto pelo cabeçalho
-  await page.locator('[data-test="nav-sign-in"]').click();
+  await page.getByRole("link", { name: "Sign in" }).click();
+  await expect(page.getByRole("heading", { name: "Login" })).toBeVisible();
   await page
     .locator('[data-test="email"]')
     .fill("customer@practicesoftwaretesting.com");
@@ -26,7 +22,7 @@ test("Deve realizar o fluxo completo de compra (Checkout) logado", async ({
   await expect(page).toHaveURL(/.*account/, { timeout: 10_000 });
 
   // 3. Voltar para a Home e Adicionar Produto
-  await page.locator('[data-test="nav-home"]').click();
+  await page.getByRole("link", { name: "Home" }).click();
   await openFirstInStockProduct(page);
   await page.locator('[data-test="add-to-cart"]').click();
 

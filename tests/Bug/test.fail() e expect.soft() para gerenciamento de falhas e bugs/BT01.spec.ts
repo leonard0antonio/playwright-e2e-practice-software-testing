@@ -7,17 +7,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 // =========================================================
-// BUG 1: A Anotação test.fail() para Bugs Conhecidos (Ordenação)
+// BUG 1: Regressão da ordenação por preço
 // =========================================================
-test("Deve falhar ao ordenar produtos por Preço (Alto-Baixo) - BUG CONHECIDO", async ({
+test("Deve ordenar produtos por preço (Alto-Baixo)", async ({
   page,
 }) => {
-  // 1. Sinalizamos que este teste VAI falhar por causa de um bug do sistema
-  test.fail(
-    true,
-    "Ticket Jira-123: A ordenação por preço está quebrada nesta versão",
-  );
-
   const dropdownSort = page.locator('[data-test="sort"]');
 
   // Selecionamos a ordenação do Maior para o Menor preço
@@ -38,7 +32,5 @@ test("Deve falhar ao ordenar produtos por Preço (Alto-Baixo) - BUG CONHECIDO", 
   const precoItem2 = parseFloat(precoItem2Texto.replace("$", ""));
 
   // A asserção matemática: O primeiro deve ser mais caro ou igual ao segundo.
-  // Como a versão "with-bugs" tem esse defeito, a matemática vai falhar.
-  // Mas, graças ao test.fail() lá em cima, o Playwright vai marcar o teste com um ícone especial de "Falha Esperada" em vez de quebrar a esteira de CI/CD.
   expect(precoItem1).toBeGreaterThanOrEqual(precoItem2);
 });

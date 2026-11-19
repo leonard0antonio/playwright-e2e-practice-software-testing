@@ -1,10 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("https://practicesoftwaretesting.com/");
-  await page.waitForLoadState("networkidle");
-});
-
 // =========================================================
 // TEST CASE 10: Login com Credenciais Válidas
 // =========================================================
@@ -12,6 +7,7 @@ test("Deve realizar o login com sucesso e acessar o painel da conta", async ({
   page,
 }) => {
   await page.goto("https://practicesoftwaretesting.com/auth/login");
+  await expect(page.getByRole("heading", { name: "Login" })).toBeVisible();
 
   // Este e-mail e senha são oficiais de demonstração fornecidos pelos criadores do site
   await page

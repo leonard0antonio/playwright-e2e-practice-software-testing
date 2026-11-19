@@ -1,10 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("https://practicesoftwaretesting.com/");
-  await page.waitForLoadState("networkidle");
-});
-
 // =========================================================
 // TEST CASE 12: Interceptação de API (Network Mocking)
 // =========================================================
