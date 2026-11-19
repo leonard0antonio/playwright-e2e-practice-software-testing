@@ -13,7 +13,10 @@ test("Deve filtrar produtos marcando a categoria Hand Tools", async ({
   page,
 }) => {
   // Marca o checkbox da categoria 'Hand Tools'
-  const checkboxHandTools = page.locator('input[value="hand-tools"]');
+  const checkboxHandTools = page.getByRole("checkbox", {
+    name: "Hand Tools",
+    exact: true,
+  });
   await checkboxHandTools.check();
 
   // O site Angular demora alguns milissegundos para filtrar o grid após o clique.
