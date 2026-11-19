@@ -13,7 +13,7 @@ test("Deve interceptar a API de produtos e alterar os dados falsamente na tela",
 }) => {
   // 1. GRAMPO NA REDE (Interceptação)
   // Antes de navegar, avisamos o Playwright para vigiar a API do back-end (/api/products)
-  await page.route("**/api/products**", async (route) => {
+  await page.route("**://api.practicesoftwaretesting.com/products**", async (route) => {
     // Deixamos a requisição real ir até o servidor e pegamos a resposta oficial
     const respostaOriginal = await route.fetch();
     const dadosOriginais = await respostaOriginal.json();
@@ -45,5 +45,5 @@ test("Deve interceptar a API de produtos e alterar os dados falsamente na tela",
   await expect(nomeProdutoMockado).toHaveText(
     "Mjolnir - O Martelo do QA Sênior",
   );
-  await expect(precoProdutoMockado).toHaveText("$9,999.99");
+  await expect(precoProdutoMockado).toHaveText("$9999.99");
 });
