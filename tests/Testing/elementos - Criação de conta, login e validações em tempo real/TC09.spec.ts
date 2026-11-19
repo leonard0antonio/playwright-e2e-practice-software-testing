@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 test("Deve exibir erro ao tentar logar com senha incorreta", async ({
   page,
 }) => {
-  await page.goto("https://practicesoftwaretesting.com/#/auth/login");
+  await page.goto("https://practicesoftwaretesting.com/auth/login");
 
   await page
     .locator('[data-test="email"]')
