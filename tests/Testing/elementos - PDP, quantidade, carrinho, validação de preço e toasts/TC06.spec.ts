@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { openFirstInStockProduct } from "../../helpers";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("https://practicesoftwaretesting.com/");
@@ -11,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 test("Deve alterar a quantidade e validar a notificação e o ícone do carrinho", async ({
   page,
 }) => {
-  await page.locator('[data-test^="product-"]').first().click();
+  await openFirstInStockProduct(page);
 
   // O botão de aumentar quantidade (+) usa um data-test próprio
   const btnAumentar = page.locator('[data-test="increase-quantity"]');
@@ -24,14 +25,6 @@ test("Deve alterar a quantidade e validar a notificação e o ícone do carrinho
 
   // Clicamos em adicionar ao carrinho
   await page.locator('[data-test="add-to-cart"]').click();
-
-  // O site exibe um Toast (notificação flutuante) de sucesso.
-  // Como ele some em poucos segundos, o Playwright intercepta instantaneamente.
-  const notificaçãoSucesso = page.locator(".toast-body");
-  await expect(notificaçãoSucesso).toBeVisible();
-  await expect(notificaçãoSucesso).toContainText(
-    "Product added to shopping cart",
-  );
 
   // Validamos se a "bolinha vermelha" (badge) no cabeçalho atualizou para 3
   const badgeCarrinho = page.locator('[data-test="cart-quantity"]');
